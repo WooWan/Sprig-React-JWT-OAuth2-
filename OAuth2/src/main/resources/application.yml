@@ -1,0 +1,44 @@
+
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  h2:
+    console:
+      enabled: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: 6158196519c030534177
+            clientSecret: edec39e97159a1661cb48b69a4cea5ef9fa5b9f2
+          google:
+            client-id: 46345952120-r5fqgpsja6j3r8uu49k4k864nb7e3b5u.apps.googleusercontent.com
+            client-secret: 8Vzh1vZsm7iAA-MWPeQm6WgC
+            scope:
+              - email
+              - profile
+          kakao:
+            client-id: 831dd59189595f2bffa954262bcf731c
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            client-authentication-method: POST
+            authorization-grant-type: authorization_code
+            scope: profile_nickname, account_email
+            client-name: Kakao
+
+        provider:
+          kakao:
+            authorization_uri: https://kauth.kakao.com/oauth/authorize
+            token_uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user_name_attribute: id
+
