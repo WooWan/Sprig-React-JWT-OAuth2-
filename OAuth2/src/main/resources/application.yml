@@ -24,6 +24,7 @@ spring:
           google:
             client-id: 46345952120-r5fqgpsja6j3r8uu49k4k864nb7e3b5u.apps.googleusercontent.com
             client-secret: 8Vzh1vZsm7iAA-MWPeQm6WgC
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
             scope:
               - email
               - profile
@@ -42,3 +43,7 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user_name_attribute: id
 
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpirationDays: 14

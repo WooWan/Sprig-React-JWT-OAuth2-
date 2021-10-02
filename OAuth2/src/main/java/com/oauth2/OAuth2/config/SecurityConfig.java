@@ -1,6 +1,6 @@
 package com.oauth2.OAuth2.config;
 
-import com.oauth2.OAuth2.jwt.JwtAuthenticationFilter;
+import com.oauth2.OAuth2.jwt.dto.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                .addFilter(new JwtAuthenticationFilter())
                 .authorizeRequests()
                 .antMatchers("/error", "/webjars/**", "/h2-console/**").permitAll()
                 .anyRequest().permitAll()
