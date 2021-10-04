@@ -1,6 +1,9 @@
 package com.oauth2.OAuth2.config;
 
-import com.oauth2.OAuth2.jwt.dto.JwtAuthenticationFilter;
+//import com.oauth2.OAuth2.jwt.dto.JwtAuthenticationFilter;
+import com.oauth2.OAuth2.jwt.dto.JwtConfig;
+import com.oauth2.OAuth2.jwt.dto.TokenProvider;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,9 +20,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
-
-    @Autowired
-    private HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+    private final JwtConfig jwtConfig;
+    private final TokenProvider tokenProvider;
+    private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
     @Bean
     public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
@@ -37,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilter(new JwtAuthenticationFilter())
+//                .addFilter(new JwtAuthenticationFilter())
                 .authorizeRequests()
                 .antMatchers("/error", "/webjars/**", "/h2-console/**").permitAll()
                 .anyRequest().permitAll()
@@ -53,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService)
                 .and()
-                .successHandler(oAuth2AuthenticationSuccessHandler);
+                .successHandler(new OAuth2AuthenticationSuccessHandler(httpCookieOAuth2AuthorizationRequestRepository , tokenProvider));
 
     }
 }

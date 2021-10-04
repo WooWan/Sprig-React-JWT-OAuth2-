@@ -44,6 +44,7 @@ spring:
             user_name_attribute: id
 
 app:
-  auth:
-    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
-    tokenExpirationDays: 14
+#  auth:
+  secretKey: 926D96C90030DD58429D2751AC1BDBBC
+  tokenExpirationAfterDays: 14
+  tokenPrefic: Bearer
