@@ -4,11 +4,18 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router } from 'react-router-dom';
+import axios from "axios";
+import Server from "./service/server";
 
+const serverParam = axios.create({
+    baseURL: "http://localhost:8080",
+});
+const server = new Server(serverParam);
+server.setupAxiosInterceptors();
 ReactDOM.render(
   <React.StrictMode>
       <Router>
-          <App />
+          <App server={server} />
       </Router>
   </React.StrictMode>,
   document.getElementById('root')
