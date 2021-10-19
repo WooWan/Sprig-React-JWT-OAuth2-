@@ -1,6 +1,7 @@
 package com.oauth2.OAuth2.config;
 
 //import com.oauth2.OAuth2.jwt.dto.JwtAuthenticationFilter;
+import com.oauth2.OAuth2.jwt.dto.JwtAuthorizationTokenFilter;
 import com.oauth2.OAuth2.jwt.dto.JwtConfig;
 import com.oauth2.OAuth2.jwt.dto.TokenProvider;
 import io.jsonwebtoken.security.Keys;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -23,6 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtConfig jwtConfig;
     private final TokenProvider tokenProvider;
     private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+    private final JwtAuthorizationTokenFilter jwtAuthorizationTokenFilter;
 
     @Bean
     public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
@@ -34,13 +37,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
         http
                 .csrf().disable()
-//                .cors()
-//                .and()
+                .cors()
+                .and()
                 .httpBasic().disable()
                 .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-//                .addFilter(new JwtAuthenticationFilter())
+                .addFilterBefore(jwtAuthorizationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/error", "/webjars/**", "/h2-console/**").permitAll()
                 .anyRequest().permitAll()
@@ -57,6 +60,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userService(customOAuth2UserService)
                 .and()
                 .successHandler(new OAuth2AuthenticationSuccessHandler(httpCookieOAuth2AuthorizationRequestRepository , tokenProvider));
-
     }
 }
