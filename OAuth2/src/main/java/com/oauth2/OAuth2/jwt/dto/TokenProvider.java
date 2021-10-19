@@ -20,7 +20,15 @@ public class TokenProvider {
     private final JwtConfig jwtConfig;
     private final SecretKey secretKey;
 
-    public String createToken(Authentication authentication){
+    public String createAccessToken(Authentication authentication) {
+        return createToken(authentication, jwtConfig.TOKEN_VALIDATION_SECOND);
+    }
+
+    public String createRefreshToken(Authentication authentication) {
+        return createToken(authentication, jwtConfig.REFRESH_TOKEN_VALIDATION_SECOND);
+    }
+
+    public String createToken(Authentication authentication, long expiredTime){
         LocalDate expirationDays = LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays());
 
         return Jwts.builder().setSubject("subject")

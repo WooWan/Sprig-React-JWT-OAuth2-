@@ -29,7 +29,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         Optional<String> redirectUrl = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
                 .map(cookie -> cookie.getValue());
         String targetUrl = redirectUrl.orElseThrow(()->  new IllegalStateException("no redirect url"));
-        String token = tokenProvider.createToken(authentication);
+        String token = tokenProvider.createAccessToken(authentication);
+        String refreshToken = tokenProvider.createRefreshToken(authentication);
         String uri = UriComponentsBuilder.fromUriString(targetUrl)
                 .queryParam("token", token)
                 .build().toString();
