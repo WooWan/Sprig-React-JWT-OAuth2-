@@ -13,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Enumeration;
 
 @Slf4j
 @Component
@@ -21,7 +20,6 @@ import java.util.Enumeration;
 public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
-    private final JwtConfig jwtConfig;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -33,6 +31,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
             Claims body = tokenProvider.getClaimsFromToken(jwtToken);
             log.info("claims body: {}", body);
         }
+        filterChain.doFilter(request, response);
     }
 
     private String getJwtFromRequest(String authorization) {
