@@ -12,6 +12,7 @@ const serverParam = axios.create({
 });
 const server = new Server(serverParam);
 server.setupAxiosInterceptors();
+
 ReactDOM.render(
   <React.StrictMode>
       <Router>

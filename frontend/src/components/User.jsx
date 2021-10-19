@@ -3,6 +3,7 @@ import React from 'react';
 const User = ({user}) => {
 
     console.log(user)
+    console.dir(user)
     console.log("userd임")
     const username = user.username;
     const email = user.email

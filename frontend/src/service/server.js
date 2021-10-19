@@ -19,6 +19,7 @@ class Server {
     }
     async getUserList(){
         const response = await this.server.get('/api/user');
+        console.log(response)
         return response;
     }
 
