@@ -43,8 +43,13 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user_name_attribute: id
 
+  cache:
+    type: redis
+    host: localhost
+    port: 6379
+
 app:
 #  auth:
-  secretKey: 926D96C90030DD58429D2751AC1BDBBC
+  secretKey: 926D96C90030DD58429D2751AC1BDBBC3333333333333333333333333333333333333C90030DD58429D2751AC1
   tokenExpirationAfterDays: 14
   tokenPrefic: Bearer
