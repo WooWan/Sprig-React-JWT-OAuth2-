@@ -20,20 +20,20 @@ public class TokenProvider {
     private final JwtConfig jwtConfig;
     private final SecretKey secretKey;
 
-    public String createAccessToken(Authentication authentication) {
-        return createToken(authentication, jwtConfig.TOKEN_VALIDATION_SECOND);
+    public String createAccessToken() {
+        return createToken(jwtConfig.TOKEN_VALIDATION_SECOND);
     }
 
-    public String createRefreshToken(Authentication authentication) {
-        return createToken(authentication, jwtConfig.REFRESH_TOKEN_VALIDATION_SECOND);
+    public String createRefreshToken() {
+        return createToken(jwtConfig.REFRESH_TOKEN_VALIDATION_SECOND);
     }
 
-    public String createToken(Authentication authentication, long expiredTime){
-        LocalDate expirationDays = LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays());
-
+    private String createToken(long expiredTime){
+        Date now = new Date();
+        Date expirationDate = new Date(now.getTime() + expiredTime);
         return Jwts.builder().setSubject("subject")
-                .setIssuedAt(new Date())
-                .setExpiration(java.sql.Date.valueOf(expirationDays))
+                .setIssuedAt(now)
+                .setExpiration(expirationDate)
                 .signWith(secretKey)
                 .compact();
     }
